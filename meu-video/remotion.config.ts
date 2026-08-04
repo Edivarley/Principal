@@ -9,9 +9,10 @@ import { Config } from "@remotion/cli/config";
 import { enableTailwind } from '@remotion/tailwind-v4';
 
 Config.setRspack(true);
-Config.setVideoImageFormat("jpeg");
-// Instagram espera vídeo em faixa limitada; sem isto os quadros JPEG saem
-// marcados como yuvj420p (faixa cheia) e o player desloca as cores.
-Config.setPixelFormat("yuv420p");
+// Quadros em PNG, não JPEG. Com JPEG a saída é marcada como yuvj420p (faixa
+// cheia) e nem --pixel-format nem setPixelFormat revertem a marcação; o
+// Instagram espera yuv420p. PNG também evita artefato de compressão nas áreas
+// chapadas de verde e nas bordas do texto.
+Config.setVideoImageFormat("png");
 Config.setOverwriteOutput(true);
 Config.overrideBundlerConfig(enableTailwind);
