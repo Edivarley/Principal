@@ -1,36 +1,12 @@
-import { loadFont } from "@remotion/fonts";
-import { staticFile } from "remotion";
-
 /**
- * Fontes servidas do próprio projeto (`public/fonts/`).
+ * As famílias são declaradas em `src/fontes.css`, com os arquivos .woff2
+ * embutidos como data URI.
  *
- * O renderizador roda sem acesso ao CDN do Google Fonts, então os arquivos
- * ficam versionados aqui — o render funciona offline e sempre com o mesmo
- * desenho de letra.
+ * Duas tentativas anteriores não sobreviveram ao render: o CDN do Google Fonts
+ * é inalcançável pelo renderizador, e carregar via `@remotion/fonts` — servindo
+ * o arquivo por HTTP ou como data URI — deixava o `delayRender()` da fonte
+ * pendurado até estourar o tempo limite, em quadros variáveis a cada execução.
+ * Declarada em CSS, a fonte não entra no caminho crítico do render.
  */
 export const inter = "Inter";
 export const lora = "Lora";
-
-await Promise.all([
-  loadFont({
-    family: "Inter",
-    url: staticFile("fonts/Inter-latin.woff2"),
-    weight: "400",
-  }),
-  loadFont({
-    family: "Inter",
-    url: staticFile("fonts/Inter-latin.woff2"),
-    weight: "600",
-  }),
-  loadFont({
-    family: "Inter",
-    url: staticFile("fonts/Inter-latin.woff2"),
-    weight: "700",
-  }),
-  loadFont({
-    family: "Lora",
-    url: staticFile("fonts/Lora-italic-latin.woff2"),
-    weight: "400",
-    style: "italic",
-  }),
-]);

@@ -1,44 +1,71 @@
 # Reel — Noexis Ark
 
 Peça para @edivarley. Pilar: ativo do perfil / método de leitura.
-Composição: `ReelNoexisArk` · 1080×1920 · 30fps · 1530 frames (51s).
+Composição: `ReelNoexisArk` · 1080×1920 · 30fps · 1140 frames (38s).
+
+Montado sobre as gravações enviadas: quatro clipes de fala e três capturas de
+tela da página.
 
 ---
 
 ## Estrutura
 
-| Cena | Frames | Duração | Conteúdo |
+| Trecho | Frames | Duração | Conteúdo |
 |---|---|---|---|
-| 1 — Gancho | 0–180 | 6s | **Gravado** · pergunta em tela + "211 estudos já triados" |
-| 2 — O problema | 165–375 | 7s | Enxurrada de títulos reais → "O problema não é acesso. É triagem." |
-| 3 — O acervo | 360–630 | 9s | Nome, descrição, contador 211, abas, cadência |
-| 4 — Um registro | 615–975 | 12s | Anatomia de um registro, campo a campo |
-| 5 — Três entradas | 960–1230 | 9s | Tema · área clínica · desenho do estudo |
-| 6 — Cautela | 1215–1365 | 5s | O que o acervo é e o que não é |
-| 7 — Chamada | 1350–1530 | 6s | **Gravado** · link na bio + assinatura CRM/RQE |
+| Fala 1 | 0–305 | 10,2s | Sobreposição do gancho nos 3,7s iniciais |
+| Fala 2 | 305–605 | 10,0s | B-roll do acervo (tabela) entre 2,3s e 7,8s |
+| Fala 3 | 605–923 | 10,6s | Três B-rolls: por tema, por área clínica, por desenho |
+| Fala 4 | 923–1140 | 7,2s | Faixa de cautela, depois "link na bio" e assinatura |
 
-As cenas 1 e 7 são marcações de gravação. Sem elas o reel fica sem presença
-física — o formato que, na linha de base do perfil, ficou em 318 reproduções
-contra 1.315–10.974 dos reels com rosto.
+O áudio vem inteiro dos clipes de fala. As vistas da página entram por cima,
+mudas — o vídeo da fala continua montado por baixo, então a fala nunca é
+cortada.
 
-## Como inserir os trechos gravados
+## Ordem dos clipes
 
-1. Grave os dois trechos em 9:16 (o texto das marcações traz a fala sugerida).
-2. Salve como `public/hook.mp4` e `public/cta.mp4`.
-3. No Studio, abra `ReelNoexisArk` e preencha `hookSrc` e `ctaSrc` no painel de
-   props — ou edite os `defaultProps` em `src/Root.tsx`:
+`fala1…fala4` correspondem a `Video_Project_7, 8, 9, 10`, na ordem numérica dos
+arquivos. **Não consegui verificar essa ordem**: não tenho transcrição de áudio
+nesta sessão, então não sei o que é dito em cada clipe.
+
+Se a ordem narrativa for outra, troque a prop `falas` em `src/Root.tsx` — é só
+isso, o reel inteiro se reordena:
 
 ```tsx
-defaultProps={{ hookSrc: "hook.mp4", ctaSrc: "cta.mp4" }}
+defaultProps={{ falas: ["fala3", "fala1", "fala2", "fala4"] }}
 ```
 
-4. Renderize:
+O que depende da ordem estar certa: o gancho aparece sobre o primeiro clipe e a
+chamada sobre o último. Se o clipe do "link na bio" não for o último, essas
+sobreposições caem no lugar errado.
 
-```bash
-npx remotion render ReelNoexisArk out/reel-noexis-ark.mp4
-```
+## Origem dos arquivos
 
-Sobreposições e assinatura ficam por cima do vídeo automaticamente.
+| No projeto | Enviado | Uso |
+|---|---|---|
+| `public/media/fala1.mp4` | Video_Project_7 | espinha |
+| `public/media/fala2.mp4` | Video_Project_8 | espinha |
+| `public/media/fala3.mp4` | Video_Project_9 | espinha |
+| `public/media/fala4.mp4` | Video_Project_10 | espinha |
+| `public/media/vistas/acervo.png` | Video_Project_3 @ 4s | B-roll |
+| `public/media/vistas/tema.png` | Video_Project_4 @ 1,5s | B-roll |
+| `public/media/vistas/desenho.png` | Video_Project_4 @ 8s | B-roll |
+| `public/media/vistas/area.png` | Video_Project_5 @ 6s | B-roll |
+
+Os clipes de fala vieram em 1920×1080 com o conteúdo 9:16 no centro; foram
+recortados em 608×1080 e a composição os amplia para 1080×1920.
+
+**As gravações de tela viraram quadros congelados, não vídeo.** As capturas
+rolam a página, e em qualquer recorte de 3 segundos a vista anunciada pelo
+rótulo saía de quadro. Congelado, o que aparece é sempre a aba certa, com uma
+leve aproximação para dar movimento. Os `.mp4` originais das telas ficaram em
+`media-fonte/`, fora do bundle.
+
+## Resolução
+
+Os clipes de fala têm 608×1080 úteis e são ampliados para 1080×1920 — dá para
+notar suavização. Se o projeto de origem for reexportado em 1080×1920 nativo, é
+só substituir os arquivos em `public/media/` e renderizar de novo; a composição
+não muda.
 
 ## Legenda
 
@@ -79,23 +106,29 @@ desempenho por campo semântico):
 #psicofarmacologia #leituracritica
 ```
 
-## Dados exibidos em tela
+## O que não vai em tela
 
-Levantados no acervo em **04/08/2026**. Confira antes de publicar:
+Nenhuma contagem de estudos. O acervo cresce, e um número queimado no vídeo
+envelhece sozinho — quem abrir o link depois vê outro valor.
 
-- **211** estudos, entradas de 09/01/2026 a 30/07/2026
-- **10 revistas monitoradas** — a tela diz "monitoramento diário · 10 revistas",
-  que descreve a captação (10 cenários ativos no Make), não o acervo. Com
-  registro, hoje, são **7**: Molecular Psychiatry (107), Nature Mental Health
-  (26), Biological Psychiatry (23), JAMA Psychiatry (20), American Journal of
-  Psychiatry (15), World Psychiatry (12), Neuropsychopharmacology (8).
-  Lancet Psychiatry, The Lancet e NEJM estão configuradas e nunca entraram.
-- Última entrada em 30/07 — cinco dias antes desta montagem. Os cenários estão
-  ativos, então o que não promoveu nada foi o filtro `Score Científico > 70`.
-  Vale conferir antes de publicar: se o intervalo aumentar, "monitoramento
-  diário" fica frágil diante de quem abre o link.
+Também não aparece "atualizado diariamente". Na conferência de 04/08/2026 a
+última entrada era de 30/07, com os cenários do Make ativos: o que não promoveu
+nada foi o filtro `Score Científico > 70`. Se o intervalo persistir, vale
+conferir o filtro antes de prometer cadência diária para um público que abre o
+link.
 
-Estudo usado como exemplo na cena 4 (registro real do acervo):
-*Efficacy and safety of adjunctive transcranial alternating current stimulation
-in bipolar depression* · Molecular Psychiatry · Ensaio Clínico Randomizado ·
-força de evidência Alta.
+## Renderizar
+
+```bash
+npx remotion render ReelNoexisArk out/reel-noexis-ark.mp4 --concurrency=4
+```
+
+As fontes ficam embutidas como data URI em `src/fontes.css`, gerado a partir de
+`public/fonts/*.woff2`. Não é decoração: o renderizador não alcança o CDN do
+Google Fonts, e carregar por `@remotion/fonts` — servindo por HTTP ou como data
+URI — deixava o `delayRender()` da fonte pendurado até estourar o tempo limite,
+em quadros diferentes a cada execução. Declarada em CSS, a fonte sai do caminho
+crítico do render.
+
+`public/media/` e `media-fonte/` estão no `.gitignore` — são ~75 MB de vídeo, o
+repositório guarda só o código.

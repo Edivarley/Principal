@@ -106,13 +106,7 @@ export const Scene03Acervo: React.FC = () => {
           }),
         }}
       >
-        {Math.round(
-          interpolate(frame, [2 * fps, 4.4 * fps], [0, 211], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-        )}
+        10
       </Interactive.Div>
 
       <Interactive.Div
@@ -130,7 +124,7 @@ export const Scene03Acervo: React.FC = () => {
           }),
         }}
       >
-        estudos triados desde janeiro
+        revistas acompanhadas todo dia
       </Interactive.Div>
 
       <Interactive.Div
@@ -184,7 +178,7 @@ export const Scene03Acervo: React.FC = () => {
           }),
         }}
       >
-        monitoramento diário · 10 revistas
+        acervo aberto · link na bio
       </Interactive.Div>
     </AbsoluteFill>
   );
