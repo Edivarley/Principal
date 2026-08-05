@@ -55,7 +55,7 @@ export const Broll: React.FC<{
         name="Rótulo do B-roll"
         style={{
           position: "absolute",
-          top: 400,
+          top: 320,
           left: 90,
           width: 900,
           fontFamily: inter,
@@ -79,10 +79,10 @@ export const Broll: React.FC<{
         name="Janela da vista"
         style={{
           position: "absolute",
-          top: 620,
+          top: 500,
           left: 60,
           width: 960,
-          height: 740,
+          height: 700,
           borderRadius: 28,
           border: "3px solid #1D4A3A",
           overflow: "hidden",
@@ -112,7 +112,7 @@ export const Broll: React.FC<{
         name="Legenda da vista"
         style={{
           position: "absolute",
-          top: 1410,
+          top: 1250,
           left: 90,
           width: 900,
           fontFamily: inter,

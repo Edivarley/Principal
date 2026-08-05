@@ -1,13 +1,15 @@
 import { Video } from "@remotion/media";
 import { AbsoluteFill, Sequence, Series, staticFile } from "remotion";
 import { Broll } from "./Broll";
+import { Legenda } from "./Legenda";
+import { Revistas } from "./Revistas";
 import { Cautela, Chamada, Gancho } from "./Sobreposicoes";
 
 /**
  * Reel montado sobre as gravações reais.
  *
  * A espinha são os quatro clipes de fala, tocados em sequência — o áudio vem
- * deles. As capturas de tela entram por cima, mudas: o vídeo da fala continua
+ * deles. As vistas da página entram por cima, mudas: o vídeo da fala continua
  * montado por baixo, então a fala não é interrompida.
  *
  * `falas` define a ordem narrativa. Trocar a ordem aqui reordena o reel
@@ -29,6 +31,7 @@ export const ReelNoexisArk: React.FC<{
           <Sequence durationInFrames={110} name="Gancho">
             <Gancho />
           </Sequence>
+          <Legenda clipe={falas[0]} />
         </Series.Sequence>
 
         <Series.Sequence durationInFrames={300} name="Fala 2 — o acervo">
@@ -38,7 +41,10 @@ export const ReelNoexisArk: React.FC<{
             objectFit="cover"
             style={{ width: "100%", height: "100%" }}
           />
-          <Sequence from={70} durationInFrames={165} name="B-roll acervo">
+          <Sequence from={8} durationInFrames={92} name="Revistas">
+            <Revistas />
+          </Sequence>
+          <Sequence from={112} durationInFrames={155} name="B-roll acervo">
             <Broll
               src="media/vistas/acervo.png"
               rotulo="Cada registro responde antes do PDF"
@@ -48,6 +54,7 @@ export const ReelNoexisArk: React.FC<{
               focoY="76%"
             />
           </Sequence>
+          <Legenda clipe={falas[1]} />
         </Series.Sequence>
 
         <Series.Sequence durationInFrames={318} name="Fala 3 — as entradas">
@@ -57,7 +64,7 @@ export const ReelNoexisArk: React.FC<{
             objectFit="cover"
             style={{ width: "100%", height: "100%" }}
           />
-          <Sequence from={8} durationInFrames={100} name="B-roll por tema">
+          <Sequence from={8} durationInFrames={130} name="B-roll por tema">
             <Broll
               src="media/vistas/tema.png"
               rotulo="Por tema"
@@ -67,17 +74,7 @@ export const ReelNoexisArk: React.FC<{
               focoY="80%"
             />
           </Sequence>
-          <Sequence from={110} durationInFrames={100} name="B-roll por área">
-            <Broll
-              src="media/vistas/area.png"
-              rotulo="Por área clínica"
-              legenda="depressão · TDAH · psicose · sono · cognição…"
-              zoom={2.1}
-              focoX="52%"
-              focoY="70%"
-            />
-          </Sequence>
-          <Sequence from={212} durationInFrames={100} name="B-roll por desenho">
+          <Sequence from={160} durationInFrames={150} name="B-roll por desenho">
             <Broll
               src="media/vistas/desenho.png"
               rotulo="Por desenho do estudo"
@@ -87,6 +84,7 @@ export const ReelNoexisArk: React.FC<{
               focoY="70%"
             />
           </Sequence>
+          <Legenda clipe={falas[2]} />
         </Series.Sequence>
 
         <Series.Sequence durationInFrames={217} name="Fala 4 — chamada">
@@ -102,6 +100,7 @@ export const ReelNoexisArk: React.FC<{
           <Sequence from={100} name="Chamada">
             <Chamada />
           </Sequence>
+          <Legenda clipe={falas[3]} />
         </Series.Sequence>
       </Series>
     </AbsoluteFill>

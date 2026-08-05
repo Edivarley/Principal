@@ -21,8 +21,11 @@ export const Gancho: React.FC = () => {
     <AbsoluteFill
       name="Sobreposição do gancho"
       style={{
+        // O véu para só no terço de cima. Numa versão anterior ele cobria o
+        // quadro inteiro e escurecia o rosto nos primeiros segundos — que é
+        // justamente onde a presença em cena segura a retenção.
         background:
-          "linear-gradient(180deg, rgba(7,32,26,0.92) 0%, rgba(7,32,26,0.72) 50%, rgba(7,32,26,0) 100%)",
+          "linear-gradient(180deg, rgba(7,32,26,0.94) 0%, rgba(7,32,26,0.88) 20%, rgba(7,32,26,0.45) 33%, rgba(7,32,26,0) 42%)",
         opacity: interpolate(
           frame,
           [0, 0.2 * fps, durationInFrames - 30, durationInFrames],
@@ -39,11 +42,11 @@ export const Gancho: React.FC = () => {
         name="Pergunta do gancho"
         style={{
           position: "absolute",
-          top: 300,
+          top: 270,
           left: 90,
           width: 900,
           fontFamily: inter,
-          fontSize: 92,
+          fontSize: 88,
           fontWeight: 700,
           lineHeight: 1.08,
           letterSpacing: -2,
@@ -81,7 +84,7 @@ export const Cautela: React.FC = () => {
       name="Faixa de cautela"
       style={{
         position: "absolute",
-        top: 1270,
+        top: 1150,
         left: 60,
         width: 960,
         backgroundColor: "rgba(7,32,26,0.92)",
@@ -188,8 +191,9 @@ export const Chamada: React.FC = () => {
       <Interactive.Div
         name="Assinatura"
         style={{
+          // Sob a chamada, não no rodapé: a legendagem ocupa a faixa de baixo.
           position: "absolute",
-          top: 1470,
+          top: 640,
           left: 90,
           width: 900,
           fontFamily: inter,
