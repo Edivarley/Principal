@@ -12,60 +12,39 @@ tela da página.
 
 | Trecho | Frames | Duração | Conteúdo |
 |---|---|---|---|
-| Fala 1 | 0–305 | 10,2s | Sobreposição do gancho nos 3,7s iniciais |
-| Fala 2 | 305–605 | 10,0s | B-roll do acervo (tabela) entre 2,3s e 7,8s |
-| Fala 3 | 605–923 | 10,6s | Três B-rolls: por tema, por área clínica, por desenho |
-| Fala 4 | 923–1140 | 7,2s | Faixa de cautela, depois "link na bio" e assinatura |
+| cam1 | 0–305 | 10,2s | Gancho nos 2,1s iniciais · punch-in a cada ~2,4s |
+| cam2 | 305–605 | 10,0s | Tela do acervo em quadro cheio, eu no inset |
+| cam3 | 605–923 | 10,6s | Três vistas: por tema, por área clínica, por desenho |
+| cam4 | 923–1140 | 7,2s | Cautela, depois "Comenta ARK" e credencial |
 
-O áudio vem inteiro dos clipes de fala. As vistas da página entram por cima,
-mudas — o vídeo da fala continua montado por baixo, então a fala nunca é
-cortada.
+Tudo que é editável está em `src/reel/config.ts`: gancho ativo, textos, tempos,
+punches e retângulos de zoom. Nenhum desses valores mora dentro de componente.
 
-## Ordem dos clipes
+**Rosto em quadro 100% da duração.** As telas nunca aparecem sozinhas — entram
+em quadro cheio com o apresentador num inset circular. O dado da conta é que
+reel sem rosto fez 318 reproduções contra 1.315 a 10.974 dos reels com presença
+em cena.
 
-`fala1…fala4` correspondem a `Video_Project_7, 8, 9, 10`, na ordem numérica dos
-arquivos. **Não consegui verificar essa ordem**: não tenho transcrição de áudio
-nesta sessão, então não sei o que é dito em cada clipe.
+**Espaço morto eliminado por construção.** `PrintFocado` calcula a escala como
+`max(1080/r.w, 1920/r.h)`, então o retângulo escolhido sempre cobre o quadro.
+Custo: com print de origem 1920×1080, cobrir um quadro em pé exige 1,78× de
+ampliação no mínimo. Print capturado em retrato e em 2× de densidade zera isso.
 
-Se a ordem narrativa for outra, troque a prop `falas` em `src/Root.tsx` — é só
-isso, o reel inteiro se reordena:
+## Cadeia de produção
 
-```tsx
-defaultProps={{ falas: ["fala3", "fala1", "fala2", "fala4"] }}
+```bash
+node scripts/preparar-camera.mjs      # GOP 15 + correção de cor nos clipes
+npx remotion render ReelNoexisArk out/reel-noexis-ark.mp4 --concurrency=3
+bash scripts/post.sh                  # loudnorm duas passagens + encode final
 ```
 
-O que depende da ordem estar certa: o gancho aparece sobre o primeiro clipe e a
-chamada sobre o último. Se o clipe do "link na bio" não for o último, essas
-sobreposições caem no lugar errado.
+A correção de cor fica nos clipes de câmera, não no export: aplicada no quadro
+pronto, derrubaria o verde e o dourado da identidade junto com o dominante da
+parede.
 
-## Origem dos arquivos
-
-| No projeto | Enviado | Uso |
-|---|---|---|
-| `public/media/fala1.mp4` | Video_Project_7 | espinha |
-| `public/media/fala2.mp4` | Video_Project_8 | espinha |
-| `public/media/fala3.mp4` | Video_Project_9 | espinha |
-| `public/media/fala4.mp4` | Video_Project_10 | espinha |
-| `public/media/vistas/acervo.png` | Video_Project_3 @ 4s | B-roll |
-| `public/media/vistas/tema.png` | Video_Project_4 @ 1,5s | B-roll |
-| `public/media/vistas/desenho.png` | Video_Project_4 @ 8s | B-roll |
-| `public/media/vistas/area.png` | Video_Project_5 @ 6s | B-roll |
-
-Os clipes de fala vieram em 1920×1080 com o conteúdo 9:16 no centro; foram
-recortados em 608×1080 e a composição os amplia para 1080×1920.
-
-**As gravações de tela viraram quadros congelados, não vídeo.** As capturas
-rolam a página, e em qualquer recorte de 3 segundos a vista anunciada pelo
-rótulo saía de quadro. Congelado, o que aparece é sempre a aba certa, com uma
-leve aproximação para dar movimento. Os `.mp4` originais das telas ficaram em
-`media-fonte/`, fora do bundle.
-
-## Resolução
-
-Os clipes de fala têm 608×1080 úteis e são ampliados para 1080×1920 — dá para
-notar suavização. Se o projeto de origem for reexportado em 1080×1920 nativo, é
-só substituir os arquivos em `public/media/` e renderizar de novo; a composição
-não muda.
+O ffmpeg do Remotion e o do Playwright são builds mínimos — sem `eq`,
+`colorbalance`, `unsharp`, `loudnorm` nem `volumedetect`. O binário completo vem
+de `pip install imageio-ffmpeg`, resolvido em `scripts/ffmpeg.mjs`.
 
 ## Legenda
 

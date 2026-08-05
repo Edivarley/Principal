@@ -29,7 +29,8 @@ const Pagina: React.FC<{ page: TikTokPage }> = ({ page }) => {
         name="Bloco da legenda"
         style={{
           position: "absolute",
-          bottom: 360,
+          // Acima dos 420px que a interface do Instagram cobre na base.
+          bottom: 440,
           left: 70,
           width: 940,
           fontFamily: inter,

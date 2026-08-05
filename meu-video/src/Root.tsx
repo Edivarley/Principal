@@ -1,6 +1,6 @@
 import { Composition, Folder } from "remotion";
 import "./index.css";
-import { ReelNoexisArk } from "./NoexisArk/ReelNoexisArk";
+import { ReelNoexisArk } from "./reel/ReelNoexisArk";
 import { Scene02Fluxo } from "./NoexisArk/Scene02Fluxo";
 import { Scene03Acervo } from "./NoexisArk/Scene03Acervo";
 import { Scene04Registro } from "./NoexisArk/Scene04Registro";
@@ -17,7 +17,6 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
-        defaultProps={{ falas: ["fala1", "fala2", "fala3", "fala4"] }}
       />
 
       <Folder name="Cartoes">
