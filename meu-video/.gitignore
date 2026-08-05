@@ -7,3 +7,4 @@ dist
 out
 public/media
 media-fonte
+whisper.cpp

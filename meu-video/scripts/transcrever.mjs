@@ -27,8 +27,28 @@ const whisper = path.join(raiz, "whisper.cpp");
 const versao = "1.5.5";
 const clipes = ["cam1", "cam2", "cam3", "cam4"];
 
+const modelo = "medium";
+
 await installWhisperCpp({ to: whisper, version: versao, printOutput: true });
-await downloadWhisperModel({ model: "medium", folder: whisper, printOutput: true });
+await downloadWhisperModel({ model: modelo, folder: whisper, printOutput: true });
+
+// O downloader não valida o que recebeu. Se a rede devolver uma página de erro,
+// ela é gravada como se fosse o modelo e o whisper morre com "bad magic" — e,
+// pior, a execução seguinte vê o arquivo no lugar, pula o download e falha
+// igual. O menor modelo tem ~75 MB; qualquer coisa abaixo de 50 MB é lixo.
+const arquivoModelo = path.join(whisper, `ggml-${modelo}.bin`);
+const tamanho = fs.statSync(arquivoModelo).size;
+if (tamanho < 50 * 1024 * 1024) {
+  fs.rmSync(arquivoModelo, { force: true });
+  const espiada = fs.existsSync(arquivoModelo)
+    ? ""
+    : `\nO que veio no lugar: ${tamanho} bytes.`;
+  throw new Error(
+    `O download do modelo falhou — o arquivo tinha ${tamanho} bytes.${espiada}\n` +
+      "Já apaguei o arquivo inválido, então é só rodar de novo. Se repetir, o " +
+      "acesso a huggingface.co está bloqueado nesta rede.",
+  );
+}
 
 const resultado = {};
 
@@ -43,7 +63,7 @@ for (const clipe of clipes) {
     inputPath: wav,
     whisperPath: whisper,
     whisperCppVersion: versao,
-    model: "medium",
+    model: modelo,
     language: "Portuguese",
     tokenLevelTimestamps: true,
     printOutput: false,
